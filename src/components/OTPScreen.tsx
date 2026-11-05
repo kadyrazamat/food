@@ -1,37 +1,35 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
-const DATA = [
-  { id: '1', name: 'Burger Bistro', price: '$40', img: 'https://unsplash.com' },
-  { id: '2', name: 'Smokin Burger', price: '$60', img: 'https://unsplash.com' },
-];
-
-export default function OTPScreen({ navigation }: any) {
+export default function OTPScreen({ navigation }: { navigation?: any }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Танымал Бургерлер</Text>
-      <FlatList 
-        data={DATA}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('ResetPasswordScreen')}>
-            <Image source={{ uri: item.img }} style={styles.img} />
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.price}>{item.price}</Text>
-          </TouchableOpacity>
-        )}
-      />
+      <View style={styles.header}>
+        <Text style={styles.title}>Растау коды</Text>
+        <Text style={styles.subtitle}>Электрондық поштаңызға жіберілген кодты енгізіңіз{'\n'}@gmail.com</Text>
+      </View>
+
+      <View style={styles.otpContainer}>
+        <TextInput style={styles.otpInput} keyboardType="number-pad" maxLength={1} />
+        <TextInput style={styles.otpInput} keyboardType="number-pad" maxLength={1} />
+        <TextInput style={styles.otpInput} keyboardType="number-pad" maxLength={1} />
+        <TextInput style={styles.otpInput} keyboardType="number-pad" maxLength={1} />
+      </View>
+
+      <TouchableOpacity style={styles.btnPrimary} onPress={() => navigation?.navigate('SelectCityScreen')}>
+        <Text style={styles.btnPrimaryText}>РАСТАУ</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FFFFFF', padding: 20, paddingTop: 40 },
-  title: { fontSize: 22, fontWeight: 'bold', marginBottom: 20, color: '#32343E' },
-  card: { backgroundColor: '#FAFAFA', width: '47%', padding: 12, borderRadius: 16, marginBottom: 15, alignItems: 'center' },
-  img: { width: 100, height: 100, borderRadius: 12 },
-  name: { fontSize: 14, fontWeight: 'bold', marginTop: 10, color: '#32343E' },
-  price: { fontSize: 14, color: '#FF7A00', fontWeight: 'bold', marginTop: 4 }
+  container: { flex: 1, backgroundColor: '#181c24', padding: 24, justifyContent: 'center' },
+  header: { marginBottom: 30, alignItems: 'center' },
+  title: { fontSize: 28, fontWeight: '700', color: '#fff', marginBottom: 8 },
+  subtitle: { fontSize: 14, color: '#aaa', textAlign: 'center', lineHeight: 20 },
+  otpContainer: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 30, paddingHorizontal: 20 },
+  otpInput: { width: 60, height: 60, backgroundColor: '#222834', borderRadius: 14, color: '#fff', fontSize: 24, textAlign: 'center' },
+  btnPrimary: { backgroundColor: '#ff6b00', height: 54, borderRadius: 14, justifyContent: 'center', alignItems: 'center' },
+  btnPrimaryText: { color: '#fff', fontSize: 16, fontWeight: '700' }
 });

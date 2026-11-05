@@ -1,28 +1,55 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Animated } from 'react-native';
 
-export default function Onboarding1({ navigation }: any) {
+export default function Onboarding1({ navigation }: { navigation?: any }) {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(30)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, { toValue: 1, duration: 800, useNativeDriver: true }),
+      Animated.timing(slideAnim, { toValue: 0, duration: 800, useNativeDriver: true }),
+    ]).start();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Image source={{ uri: 'https://unsplash.com' }} style={styles.image} />
-      <Text style={styles.title}>Жақын маңдағы үздік мейрамханалар</Text>
-      <Text style={styles.desc}>Өзіңізге ұнайтын тағамдарды қаланың ең таңдаулы орындарынан табыңыз.</Text>
-      <View style={styles.dots}><View style={[styles.dot, styles.active]} /><View style={styles.dot} /><View style={styles.dot} /></View>
-      <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Onboarding2')}>
-        <Text style={styles.btnText}>КЕЛЕСІ</Text>
-      </TouchableOpacity>
+      <View />
+      <Animated.View style={[styles.illustrationBox, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
+        <Image source={{ uri: 'https://images.unsplash.com/photo-1526367790999-0150786686a2?auto=format&fit=crop&w=500&q=80' }} style={styles.image} resizeMode="contain" />
+      </Animated.View>
+      <Animated.View style={[styles.contentBox, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
+        <Text style={styles.title}>Барлық сүйікті тағамдарыңыз</Text>
+        <Text style={styles.subtitle}>Барлық ұнайтын тағамдарыңыз бір жерде, біз тапсырысты қабылдаймыз, қалғанын өзіміз жасаймыз.</Text>
+      </Animated.View>
+      <View style={styles.paginationDots}>
+        <View style={[styles.dot, styles.activeDot]} /><View style={styles.dot} /><View style={styles.dot} /><View style={styles.dot} />
+      </View>
+      <View style={styles.actionContainer}>
+        <TouchableOpacity style={styles.btnNext} onPress={() => navigation?.navigate('Onboarding2')}>
+          <Text style={styles.btnNextText}>КЕЛЕСІ</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btnSkip} onPress={() => navigation?.navigate('LoginScreen')}>
+          <Text style={styles.btnSkipText}>Өткізу</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FFFFFF', padding: 24, alignItems: 'center', justifyContent: 'center' },
-  image: { width: 250, height: 250, resizeMode: 'contain' },
-  title: { fontSize: 22, fontWeight: 'bold', textAlign: 'center', color: '#32343E', marginTop: 30 },
-  desc: { fontSize: 16, color: '#646982', textAlign: 'center', marginTop: 10, paddingHorizontal: 10 },
-  dots: { flexDirection: 'row', marginTop: 30 },
-  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: '#E2E2E2', marginHorizontal: 4 },
-  active: { backgroundColor: '#FF7A00', width: 16 },
-  btn: { backgroundColor: '#FF7A00', width: '100%', padding: 16, borderRadius: 12, alignItems: 'center', marginTop: 40 },
-  btnText: { color: '#FFFFFF', fontWeight: 'bold' }
+  container: { flex: 1, backgroundColor: '#fff', justifyContent: 'space-between', paddingHorizontal: 24, paddingTop: 60, paddingBottom: 40 },
+  illustrationBox: { alignItems: 'center', justifyContent: 'center' },
+  image: { width: 280, height: 260 },
+  contentBox: { alignItems: 'center', paddingHorizontal: 10 },
+  title: { fontSize: 24, fontWeight: '700', color: '#111', marginBottom: 12, textAlign: 'center' },
+  subtitle: { fontSize: 14, color: '#777', textAlign: 'center', lineHeight: 20 },
+  paginationDots: { flexDirection: 'row', justifyContent: 'center', gap: 6 },
+  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: '#e0e0e0' },
+  activeDot: { width: 24, backgroundColor: '#ff6b00' },
+  actionContainer: { width: '100%', gap: 12 },
+  btnNext: { width: '100%', height: 56, backgroundColor: '#ff6b00', borderRadius: 14, justifyContent: 'center', alignItems: 'center' },
+  btnNextText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  btnSkip: { alignItems: 'center', padding: 8 },
+  btnSkipText: { color: '#888', fontSize: 14, fontWeight: '500' }
 });
