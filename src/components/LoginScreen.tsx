@@ -1,55 +1,35 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
-export const LoginScreen = ({ navigation }: any) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
+export default function LoginScreen({ navigation }: any) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Жүйеге кіру</Text>
-      <Text style={styles.subtitle}>Жалғастыру үшін деректеріңізді енгізіңіз</Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Email немесе телефон"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Құпия сөз"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-
-      <TouchableOpacity onPress={() => navigation?.navigate('ForgetPassword')}>
+      <Text style={styles.title}>Қош келдіңіз!</Text>
+      <Text style={styles.sub}>Жүйеге кіру үшін деректерді енгізіңіз</Text>
+      <TextInput style={styles.input} placeholder="Электронды пошта" placeholderTextColor="#A0A5BA" />
+      <TextInput style={styles.input} placeholder="Құпия сөз" secureTextEntry placeholderTextColor="#A0A5BA" />
+      <TouchableOpacity style={styles.forgot} onPress={() => navigation.navigate('ForgetPassword')}>
         <Text style={styles.forgotText}>Құпия сөзді ұмыттыңыз ба?</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button} onPress={() => {}}>
-        <Text style={styles.buttonText}>Кіру</Text>
+      <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SelectCityScreen')}>
+        <Text style={styles.btnText}>КІРУ</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation?.navigate('RegisterScreen')}>
-        <Text style={styles.linkText}>Тіркелген жоқсыз ба? <Text style={styles.boldText}>Тіркелу</Text></Text>
+      <TouchableOpacity style={styles.footer} onPress={() => navigation.navigate('RegisterScreen')}>
+        <Text style={styles.footerText}>Аккаунтыңыз жоқ па? <Text style={{color: '#FF7A00'}}>Тіркелу</Text></Text>
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, justifyContent: 'center', backgroundColor: '#FFF' },
-  title: { fontSize: 28, fontWeight: 'bold', color: '#1E1E2D', marginBottom: 8 },
-  subtitle: { fontSize: 14, color: '#7E8299', marginBottom: 32 },
-  input: { backgroundColor: '#F5F8FA', padding: 16, borderRadius: 12, marginBottom: 16, fontSize: 16 },
-  forgotText: { color: '#FF6B00', textAlign: 'right', marginBottom: 24, fontWeight: '600' },
-  button: { backgroundColor: '#FF6B00', padding: 16, borderRadius: 12, alignItems: 'center', marginBottom: 24 },
-  buttonText: { color: '#FFF', fontSize: 16, fontWeight: 'bold' },
-  linkText: { textAlign: 'center', color: '#7E8299', fontSize: 14 },
-  boldText: { color: '#FF6B00', fontWeight: 'bold' },
+  container: { flex: 1, backgroundColor: '#1E1E24', padding: 24, justifyContent: 'center' },
+  title: { fontSize: 30, fontWeight: 'bold', color: '#FFFFFF' },
+  sub: { fontSize: 16, color: '#AEAEB2', marginTop: 8, marginBottom: 30 },
+  input: { backgroundColor: '#2C2C2E', color: '#FFFFFF', padding: 16, borderRadius: 12, marginBottom: 15 },
+  forgot: { alignSelf: 'flex-end', marginBottom: 25 },
+  forgotText: { color: '#FF7A00' },
+  btn: { backgroundColor: '#FF7A00', padding: 16, borderRadius: 12, alignItems: 'center' },
+  btnText: { color: '#FFFFFF', fontWeight: 'bold' },
+  footer: { alignItems: 'center', marginTop: 25 },
+  footerText: { color: '#AEAEB2' }
 });

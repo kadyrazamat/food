@@ -1,38 +1,24 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
-export const ForgetPassword = ({ navigation }: any) => {
-  const [email, setEmail] = useState('');
-
+export default function ForgetPassword({ navigation }: any) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Құпия сөзді қалпына келтіру</Text>
-      <Text style={styles.subtitle}>Email мекенжайыңызды енгізіңіз. Біз сізге растау кодын жібереміз.</Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-
-      <TouchableOpacity 
-        style={styles.button} 
-        onPress={() => navigation?.navigate('OTPScreen')}
-      >
-        <Text style={styles.buttonText}>Кодты жіберу</Text>
+      <Text style={styles.title}>Құпия сөзді ұмыттыңыз ба?</Text>
+      <Text style={styles.sub}>Поштаңызды жазыңыз, біз сізге код жібереміз</Text>
+      <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#A0A5BA" />
+      <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('OTPScreen')}>
+        <Text style={styles.btnText}>КОД ЖІБЕРУ</Text>
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, justifyContent: 'center', backgroundColor: '#FFF' },
-  title: { fontSize: 26, fontWeight: 'bold', color: '#1E1E2D', marginBottom: 8 },
-  subtitle: { fontSize: 14, color: '#7E8299', marginBottom: 32, lineHeight: 20 },
-  input: { backgroundColor: '#F5F8FA', padding: 16, borderRadius: 12, marginBottom: 24, fontSize: 16 },
-  button: { backgroundColor: '#FF6B00', padding: 16, borderRadius: 12, alignItems: 'center' },
-  buttonText: { color: '#FFF', fontSize: 16, fontWeight: 'bold' },
+  container: { flex: 1, backgroundColor: '#1E1E24', padding: 24, justifyContent: 'center' },
+  title: { fontSize: 26, fontWeight: 'bold', color: '#FFFFFF' },
+  sub: { fontSize: 15, color: '#AEAEB2', marginTop: 10, marginBottom: 30 },
+  input: { backgroundColor: '#2C2C2E', color: '#FFFFFF', padding: 16, borderRadius: 12, marginBottom: 20 },
+  btn: { backgroundColor: '#FF7A00', padding: 16, borderRadius: 12, alignItems: 'center' },
+  btnText: { color: '#FFFFFF', fontWeight: 'bold' }
 });
