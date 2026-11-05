@@ -11,16 +11,24 @@ export default function Onboarding2({ navigation }: { navigation?: any }) {
   return (
     <View style={styles.container}>
       <View />
+      {/* 2-ші сурет (Аспаз және тағам әзірлеп жатқан сәт)[cite: 3] */}
       <Animated.View style={[styles.illustrationBox, { opacity: fadeAnim }]}>
-        <Image source={{ uri: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=500&q=80' }} style={styles.image} resizeMode="contain" />
+        <Image 
+          source={{ uri: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRgbzqEZ38XEtHgmyEIP1RsAEYG64T6BF7h_iy8RBMZdxy4u1ZN' }} 
+          style={styles.image} 
+          resizeMode="contain" 
+        />
       </Animated.View>
+
       <Animated.View style={[styles.contentBox, { opacity: fadeAnim }]}>
-        <Text style={styles.title}>Тәжірибелі аспаздан тапсырыс беріңіз</Text>
+        <Text style={styles.title}>Тәжірибелі аспаздан таңдаңыз</Text>
         <Text style={styles.subtitle}>Жоғары сапалы және дәмді тағамдарды арнайы аспаздар сіз үшін әзірлейді.</Text>
       </Animated.View>
+
       <View style={styles.paginationDots}>
         <View style={styles.dot} /><View style={[styles.dot, styles.activeDot]} /><View style={styles.dot} /><View style={styles.dot} />
       </View>
+
       <View style={styles.actionContainer}>
         <TouchableOpacity style={styles.btnNext} onPress={() => navigation?.navigate('Onboarding3')}>
           <Text style={styles.btnNextText}>КЕЛЕСІ</Text>

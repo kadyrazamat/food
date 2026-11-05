@@ -12,7 +12,7 @@ export default function Onboarding3({ navigation }: { navigation?: any }) {
     <View style={styles.container}>
       <View />
       <Animated.View style={[styles.illustrationBox, { opacity: fadeAnim }]}>
-        <Image source={{ uri: 'https://images.unsplash.com/photo-1526367790999-0150786686a2?auto=format&fit=crop&w=500&q=80' }} style={styles.image} resizeMode="contain" />
+        <Image source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrDq9B_W-4WhTb6mYsOShV8DVoXGP0RxV1bmtvmLsK1C-CeFHP' }} style={styles.image} resizeMode="contain" />
       </Animated.View>
       <Animated.View style={[styles.contentBox, { opacity: fadeAnim }]}>
         <Text style={styles.title}>Тегін жеткізу ұсыныстары</Text>

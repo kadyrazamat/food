@@ -15,16 +15,24 @@ export default function Onboarding1({ navigation }: { navigation?: any }) {
   return (
     <View style={styles.container}>
       <View />
+      {/* 1-ші сурет (Планшетпен отырған адам және тағамдар)[cite: 3] */}
       <Animated.View style={[styles.illustrationBox, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
-        <Image source={{ uri: 'https://images.unsplash.com/photo-1526367790999-0150786686a2?auto=format&fit=crop&w=500&q=80' }} style={styles.image} resizeMode="contain" />
+        <Image 
+          source={{ uri: 'https://img.magnific.com/premium-vector/binge-eating-concept-sad-guy-eats-lots-fast-food-hamburger-fat-man-holds-burger-problems-with-unhealthy-nutrition-psychological-disorder-flat-isolated-vector-illustration-white-background_633472-3905.jpg?semt=ais_hybrid&w=740&q=80' }} 
+          style={styles.image} 
+          resizeMode="contain" 
+        />
       </Animated.View>
-      <Animated.View style={[styles.contentBox, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
+
+      <Animated.View style={[styles.contentBox, { opacity: fadeAnim }]}>
         <Text style={styles.title}>Барлық сүйікті тағамдарыңыз</Text>
         <Text style={styles.subtitle}>Барлық ұнайтын тағамдарыңыз бір жерде, біз тапсырысты қабылдаймыз, қалғанын өзіміз жасаймыз.</Text>
       </Animated.View>
+
       <View style={styles.paginationDots}>
         <View style={[styles.dot, styles.activeDot]} /><View style={styles.dot} /><View style={styles.dot} /><View style={styles.dot} />
       </View>
+
       <View style={styles.actionContainer}>
         <TouchableOpacity style={styles.btnNext} onPress={() => navigation?.navigate('Onboarding2')}>
           <Text style={styles.btnNextText}>КЕЛЕСІ</Text>
