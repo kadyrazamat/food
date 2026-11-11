@@ -11,7 +11,6 @@ export default function Onboarding2({ navigation }: { navigation?: any }) {
   return (
     <View style={styles.container}>
       <View />
-      {/* 2-ші сурет (Аспаз және тағам әзірлеп жатқан сәт)[cite: 3] */}
       <Animated.View style={[styles.illustrationBox, { opacity: fadeAnim }]}>
         <Image 
           source={{ uri: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRgbzqEZ38XEtHgmyEIP1RsAEYG64T6BF7h_iy8RBMZdxy4u1ZN' }} 

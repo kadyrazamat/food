@@ -13,6 +13,13 @@ import OTPScreen from './src/components/OTPScreen';
 import ResetPasswordScreen from './src/components/ResetPasswordScreen';
 import SelectCityScreen from './src/components/SelectCityScreen';
 
+// ЖАҢА БЕТТЕРДІҢ ИМПОРТТАРЫ:
+import AccessLocationScreen from './src/components/AccessLocationScreen';
+import HomeScreen from './src/components/HomeScreen';
+import SearchScreen from './src/components/SearchScreen';
+import RestaurantDetailScreen from './src/components/RestaurantDetailScreen';
+import CartScreen from './src/components/CartScreen';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -29,6 +36,13 @@ export default function App() {
         <Stack.Screen name="OTPScreen" component={OTPScreen} />
         <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
         <Stack.Screen name="SelectCityScreen" component={SelectCityScreen} />
+        
+        {/* ЖАҢА ҚОСЫЛҒАН БЕТТЕР */}
+        <Stack.Screen name="AccessLocationScreen" component={AccessLocationScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="SearchScreen" component={SearchScreen} />
+        <Stack.Screen name="RestaurantDetailScreen" component={RestaurantDetailScreen} />
+        <Stack.Screen name="CartScreen" component={CartScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

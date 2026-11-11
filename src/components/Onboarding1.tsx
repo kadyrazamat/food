@@ -15,7 +15,6 @@ export default function Onboarding1({ navigation }: { navigation?: any }) {
   return (
     <View style={styles.container}>
       <View />
-      {/* 1-ші сурет (Планшетпен отырған адам және тағамдар)[cite: 3] */}
       <Animated.View style={[styles.illustrationBox, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
         <Image 
           source={{ uri: 'https://img.magnific.com/premium-vector/binge-eating-concept-sad-guy-eats-lots-fast-food-hamburger-fat-man-holds-burger-problems-with-unhealthy-nutrition-psychological-disorder-flat-isolated-vector-illustration-white-background_633472-3905.jpg?semt=ais_hybrid&w=740&q=80' }} 

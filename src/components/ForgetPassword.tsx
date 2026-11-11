@@ -11,12 +11,12 @@ export default function ForgetPassword({ navigation }: { navigation?: any }) {
 
       <View style={styles.form}>
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>ЭЛЕКТРОНДЫҚ ПОШТА</Text>
+          <Text style={styles.label}>Электрондық пошта</Text>
           <TextInput style={styles.input} placeholder="@gmail.com" placeholderTextColor="#aaa" />
         </View>
 
         <TouchableOpacity style={styles.btnPrimary} onPress={() => navigation?.navigate('ResetPasswordScreen')}>
-          <Text style={styles.btnPrimaryText}>КОД ЖІБЕРУ</Text>
+          <Text style={styles.btnPrimaryText}>Код жіберу</Text>
         </TouchableOpacity>
       </View>
     </View>

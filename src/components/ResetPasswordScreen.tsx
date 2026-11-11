@@ -11,12 +11,12 @@ export default function ResetPasswordScreen({ navigation }: { navigation?: any }
 
       <View style={styles.form}>
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>ЖАҢА ҚҰПИЯ СӨЗ</Text>
+          <Text style={styles.label}>Жаңа құпия сөз</Text>
           <TextInput style={styles.input} placeholder="••••••••••" placeholderTextColor="#aaa" secureTextEntry />
         </View>
 
         <TouchableOpacity style={styles.btnPrimary} onPress={() => navigation?.navigate('LoginScreen')}>
-          <Text style={styles.btnPrimaryText}>САҚТАУ</Text>
+          <Text style={styles.btnPrimaryText}>Сақтау</Text>
         </TouchableOpacity>
       </View>
     </View>

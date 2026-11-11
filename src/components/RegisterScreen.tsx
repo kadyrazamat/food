@@ -11,22 +11,22 @@ export default function RegisterScreen({ navigation }: { navigation?: any }) {
 
       <View style={styles.form}>
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>АТЫ-ЖӨНІ</Text>
+          <Text style={styles.label}>Аты-жөні</Text>
           <TextInput style={styles.input} placeholder="Аты-жөні" placeholderTextColor="#aaa" />
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>ЭЛЕКТРОНДЫҚ ПОШТА</Text>
+          <Text style={styles.label}>Электрондық пошта</Text>
           <TextInput style={styles.input} placeholder="@gmail.com" placeholderTextColor="#aaa" />
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>ҚҰПИЯ СӨЗ</Text>
+          <Text style={styles.label}>Құпия сөз</Text>
           <TextInput style={styles.input} placeholder="••••••••••" placeholderTextColor="#aaa" secureTextEntry />
         </View>
 
         <TouchableOpacity style={styles.btnPrimary} onPress={() => navigation?.navigate('OTPScreen')}>
-          <Text style={styles.btnPrimaryText}>ТІРКЕЛУ</Text>
+          <Text style={styles.btnPrimaryText}>Тіркелу</Text>
         </TouchableOpacity>
       </View>
     </View>

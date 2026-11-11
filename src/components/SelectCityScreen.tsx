@@ -1,33 +1,95 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-const cities = ['Алматы', 'Астана', 'Шымкент', 'Қарағанды', 'Ақтөбе'];
+export default function SelectCityScreen({ navigation }: { navigation?: any }) {
+  const [selectedCity, setSelectedCity] = useState('Алматы');
+  const cities = ['Алматы', 'Астана', 'Шымкент', 'Қарағанды', 'Тараз', 'Атырау'];
 
-export default function SelectCityScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Қаланы таңдаңыз</Text>
-      <Text style={styles.subtitle}>Жеткізу қызметі үшін өз қалаңызды белгілеңіз</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation?.goBack()}>
+          <Ionicons name="chevron-back" size={20} color="#181C2E" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Жеткізу орнын таңдау</Text>
+        <View style={{ width: 40 }} />
+      </View>
 
-      <FlatList
-        data={cities}
-        keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.cityItem} onPress={() => console.log(item, 'таңдалды')}>
-            <Text style={styles.cityText}>{item}</Text>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Text style={styles.label}>Қазіргі қалаңыз</Text>
+        
+        {cities.map((city, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.cityCard, selectedCity === city && styles.cityCardActive]}
+            onPress={() => setSelectedCity(city)}
+          >
+            <Text style={[styles.cityText, selectedCity === city && styles.cityTextActive]}>
+              {city}
+            </Text>
+            {selectedCity === city && (
+              <Ionicons name="checkmark-circle" size={20} color="#FF7622" />
+            )}
           </TouchableOpacity>
-        )}
-        contentContainerStyle={styles.list}
-      />
-    </View>
+        ))}
+      </ScrollView>
+
+      <View style={styles.footer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation?.navigate('AccessLocationScreen')}
+        >
+          <Text style={styles.buttonText}>Жалғастыру</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#181c24', padding: 24, paddingTop: 60 },
-  title: { fontSize: 26, fontWeight: '700', color: '#fff', marginBottom: 8, textAlign: 'center' },
-  subtitle: { fontSize: 14, color: '#aaa', textAlign: 'center', marginBottom: 30 },
-  list: { gap: 12 },
-  cityItem: { backgroundColor: '#222834', padding: 18, borderRadius: 12, alignItems: 'center' },
-  cityText: { color: '#fff', fontSize: 16, fontWeight: '600' }
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 10,
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#ECF0F4',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerTitle: { fontSize: 16, fontWeight: 'bold', color: '#181C2E' },
+  scrollContent: { padding: 24 },
+  label: { fontSize: 14, color: '#A0A5BA', marginBottom: 16 },
+  cityCard: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#F0F5FA',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 12,
+  },
+  cityCardActive: {
+    backgroundColor: '#FFF5EC',
+    borderWidth: 1,
+    borderColor: '#FF7622',
+  },
+  cityText: { fontSize: 15, fontWeight: '600', color: '#181C2E' },
+  cityTextActive: { color: '#FF7622' },
+  footer: { padding: 24 },
+  button: {
+    backgroundColor: '#FF7622',
+    height: 56,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: { color: '#FFFFFF', fontSize: 16, fontWeight: 'bold' },
 });
