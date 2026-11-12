@@ -3,9 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Ima
 import { Ionicons } from '@expo/vector-icons';
 
 export default function CartScreen({ navigation }: any) {
-
   const [currency, setCurrency] = useState('₸');
-
 
   const [cartItems, setItems] = useState([
     { 
@@ -99,7 +97,10 @@ export default function CartScreen({ navigation }: any) {
           <Text style={styles.totalValue}>{formatPrice(calculateTotal())}</Text>
         </View>
 
-        <TouchableOpacity style={styles.checkoutButton} onPress={() => alert('Тапсырыс қабылданды!')}>
+        <TouchableOpacity 
+          style={styles.checkoutButton} 
+          onPress={() => navigation?.navigate('PaymentScreen')}
+        >
           <Text style={styles.checkoutButtonText}>Тапсырыс беру</Text>
         </TouchableOpacity>
       </View>
