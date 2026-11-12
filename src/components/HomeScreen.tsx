@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,6 +12,8 @@ import {
 import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
 
 export default function HomeScreen({ navigation }: { navigation?: any }) {
+  const [selectedCategory, setSelectedCategory] = useState(0);
+  const categories = ['Барлығы', 'Донер', 'Бургер', 'Пицца', 'Сусын'];
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -34,10 +36,12 @@ export default function HomeScreen({ navigation }: { navigation?: any }) {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.greeting}>Сәлем ... қайырлы күн!</Text>
+        <Text style={styles.greeting}>Сәлем, қайырлы күн!</Text>
+        
         <TouchableOpacity 
           style={styles.searchContainer}
           onPress={() => navigation?.navigate('SearchScreen')}
+          activeOpacity={0.8}
         >
           <Feather name="search" size={20} color="#999" style={styles.searchIcon} />
           <TextInput
@@ -56,23 +60,27 @@ export default function HomeScreen({ navigation }: { navigation?: any }) {
         </View>
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesRow}>
-          {['Барлығы', 'Донер', 'Бургер', 'Пицца', 'Сусын'].map((cat, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[styles.categoryCard, index === 0 && styles.categoryCardActive]}
-            >
-              <View style={[styles.categoryIconBg, index === 0 && styles.categoryIconBgActive]}>
-                <MaterialIcons
-                  name={index === 0 ? 'local-fire-department' : 'fastfood'}
-                  size={24}
-                  color={index === 0 ? '#fff' : '#FF6b00'}
-                />
-              </View>
-              <Text style={[styles.categoryText, index === 0 && styles.categoryTextActive]}>
-                {cat}
-              </Text>
-            </TouchableOpacity>
-          ))}
+          {categories.map((cat, index) => {
+            const isActive = selectedCategory === index;
+            return (
+              <TouchableOpacity
+                key={index}
+                style={[styles.categoryCard, isActive && styles.categoryCardActive]}
+                onPress={() => setSelectedCategory(index)}
+              >
+                <View style={[styles.categoryIconBg, isActive && styles.categoryIconBgActive]}>
+                  <MaterialIcons
+                    name={index === 0 ? 'local-fire-department' : 'fastfood'}
+                    size={20}
+                    color={isActive ? '#fff' : '#FF6b00'}
+                  />
+                </View>
+                <Text style={[styles.categoryText, isActive && styles.categoryTextActive]}>
+                  {cat}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </ScrollView>
 
         <View style={styles.sectionHeader}>
@@ -85,13 +93,14 @@ export default function HomeScreen({ navigation }: { navigation?: any }) {
         <TouchableOpacity 
           style={styles.restaurantCard}
           onPress={() => navigation?.navigate('RestaurantDetailScreen')}
+          activeOpacity={0.9}
         >
           <Image
             source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF9v8OvBHhxnj05O64tMbLbQ1XtzDQwbWMIEWd7wJyoA&s=10' }}
             style={styles.restaurantImage}
           />
           <Text style={styles.restaurantName}>Додо Пицца</Text>
-          <Text style={styles.restaurantTags}>Пицца </Text>
+          <Text style={styles.restaurantTags}>Пицца • Фастфуд</Text>
           
           <View style={styles.restaurantMeta}>
             <View style={styles.metaItem}>
@@ -131,10 +140,10 @@ const styles = StyleSheet.create({
   sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, marginTop: 10 },
   sectionTitle: { fontSize: 16, fontWeight: 'bold', color: '#111' },
   seeAll: { fontSize: 12, color: '#FF6b00' },
-  categoriesRow: { marginBottom: 15 },
-  categoryCard: { alignItems: 'center', marginRight: 15, backgroundColor: '#fff', paddingVertical: 10, paddingHorizontal: 12, borderRadius: 30, flexDirection: 'row', shadowColor: '#000', shadowOpacity: 0.03, shadowRadius: 4, elevation: 1 },
+  categoriesRow: { marginBottom: 15, paddingVertical: 4 },
+  categoryCard: { alignItems: 'center', marginRight: 12, backgroundColor: '#fff', paddingVertical: 8, paddingHorizontal: 12, borderRadius: 30, flexDirection: 'row', shadowColor: '#000', shadowOpacity: 0.03, shadowRadius: 4, elevation: 1 },
   categoryCardActive: { backgroundColor: '#FF6b00' },
-  categoryIconBg: { width: 32, height: 32, borderRadius: 16, backgroundColor: '#FFF3EC', justifyContent: 'center', alignItems: 'center', marginRight: 8 },
+  categoryIconBg: { width: 30, height: 30, borderRadius: 15, backgroundColor: '#FFF3EC', justifyContent: 'center', alignItems: 'center', marginRight: 8 },
   categoryIconBgActive: { backgroundColor: 'rgba(255,255,255,0.2)' },
   categoryText: { fontSize: 13, fontWeight: '600', color: '#333' },
   categoryTextActive: { color: '#fff' },
