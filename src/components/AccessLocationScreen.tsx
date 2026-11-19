@@ -1,31 +1,45 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function AccessLocationScreen({ navigation }: { navigation?: any }) {
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, { toValue: 1.12, duration: 900, useNativeDriver: true }),
+        Animated.timing(pulseAnim, { toValue: 1, duration: 900, useNativeDriver: true }),
+      ])
+    ).start();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.mapIllustration}>
-          <View style={styles.mapCircle}>
-            <Ionicons name="location" size={50} color="#FF7622" />
-          </View>
-        </View>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation?.goBack()}>
+          <Ionicons name="chevron-back" size={20} color="#181C2E" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Орналасуды анықтау</Text>
+        <View style={{ width: 40 }} />
+      </View>
 
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>Орынды анықтауға рұқсат беру</Text>
-          <Text style={styles.subtitle}>
-            FOOD қолданбаны пайдалану кезінде ғана орналасқан жеріңізге қол жеткізеді
-          </Text>
-        </View>
+      <View style={styles.centerBox}>
+        <Animated.View style={[styles.iconCircle, { transform: [{ scale: pulseAnim }] }]}>
+          <Ionicons name="location" size={44} color="#FF7622" />
+        </Animated.View>
+        <Text style={styles.title}>Мекенжайыңызды табайық</Text>
+        <Text style={styles.subtitle}>
+          Жақын маңдағы мейрамханалар мен жылдам жеткізу уақытын дәл көрсету үшін геолокацияға рұқсат беріңіз.
+        </Text>
       </View>
 
       <View style={styles.footer}>
-        <TouchableOpacity 
-          style={styles.button} 
-          onPress={() => navigation?.navigate('HomeScreen')}
-        >
-          <Text style={styles.buttonText}>Рұқсат беру</Text>
+        <TouchableOpacity style={styles.btnPrimary} onPress={() => navigation?.navigate('HomeScreen')}>
+          <Text style={styles.btnPrimaryText}>ОРНАЛАСУДЫ РҰҚСАТ ЕТУ</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btnSecondary} onPress={() => navigation?.navigate('MapScreen')}>
+          <Text style={styles.btnSecondaryText}>Картадан қолмен таңдау</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -33,35 +47,17 @@ export default function AccessLocationScreen({ navigation }: { navigation?: any 
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FFFFFF', justifyContent: 'space-between' },
-  content: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 24 },
-  mapIllustration: {
-    width: 200,
-    height: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 40,
-    backgroundColor: '#FFF5EC',
-    borderRadius: 100,
-  },
-  mapCircle: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#FFE1C6',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textContainer: { alignItems: 'center' },
-  title: { fontSize: 22, fontWeight: 'bold', color: '#181C2E', marginBottom: 12, textAlign: 'center' },
-  subtitle: { fontSize: 14, color: '#A0A5BA', textAlign: 'center', lineHeight: 22, paddingHorizontal: 20 },
-  footer: { padding: 24 },
-  button: {
-    backgroundColor: '#FF7622',
-    height: 56,
-    borderRadius: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonText: { color: '#FFFFFF', fontSize: 16, fontWeight: 'bold' },
+  container: { flex: 1, backgroundColor: '#FFFFFF', justifyContent: 'space-between', padding: 24 },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  backButton: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#ECF0F4', justifyContent: 'center', alignItems: 'center' },
+  headerTitle: { fontSize: 17, fontWeight: 'bold', color: '#181C2E' },
+  centerBox: { alignItems: 'center', paddingHorizontal: 12 },
+  iconCircle: { width: 104, height: 104, borderRadius: 52, backgroundColor: '#FFF3EC', justifyContent: 'center', alignItems: 'center', marginBottom: 24 },
+  title: { fontSize: 24, fontWeight: '700', color: '#181C2E', marginBottom: 10, textAlign: 'center' },
+  subtitle: { fontSize: 14, color: '#777', textAlign: 'center', lineHeight: 21 },
+  footer: { gap: 12 },
+  btnPrimary: { backgroundColor: '#FF7622', height: 54, borderRadius: 14, justifyContent: 'center', alignItems: 'center' },
+  btnPrimaryText: { color: '#FFFFFF', fontSize: 15, fontWeight: '700' },
+  btnSecondary: { height: 46, justifyContent: 'center', alignItems: 'center' },
+  btnSecondaryText: { color: '#666', fontSize: 14, fontWeight: '600' },
 });
