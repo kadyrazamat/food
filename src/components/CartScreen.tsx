@@ -1,140 +1,157 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Image } from 'react-native';
+import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  SafeAreaView,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useCart } from '../context/CartContext';
 
-export default function CartScreen({ navigation }: any) {
-  const [currency, setCurrency] = useState('₸');
-
-  const [cartItems, setItems] = useState([
-    { 
-      id: 1, 
-      name: 'Пицца Додо', 
-      basePrice: 4250, 
-      size: '20см', 
-      qty: 1,
-      image: 'https://media.dodostatic.net/image/r:584x584/01995c2bbccc719094cc6fd0ead33551.webp' 
-    },
-  ]);
-
-  const formatPrice = (price: number) => {
-    switch (currency) {
-      case '$': return `$${(price / 450).toFixed(2)}`;
-      case '€': return `€${(price / 490).toFixed(2)}`;
-      default: return `${price}тг`;
-    }
-  };
-
-  const calculateTotal = () => {
-    return cartItems.reduce((sum, item) => sum + item.basePrice * item.qty, 0);
-  };
+export default function CartScreen({ navigation }: { navigation?: any }) {
+  const { items, totalPrice, increaseQty, decreaseQty, removeItem } = useCart();
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation?.goBack()}>
+        <TouchableOpacity style={styles.backBtn} onPress={() => navigation?.goBack()}>
           <Ionicons name="chevron-back" size={20} color="#181C2E" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Себет</Text>
-        
-        <View style={styles.currencyContainer}>
-          {['₸', '$', '€'].map((curr) => (
-            <TouchableOpacity 
-              key={curr} 
-              style={[styles.currencyBtn, currency === curr && styles.currencyBtnActive]}
-              onPress={() => setCurrency(curr)}
+        <Text style={styles.title}>Себет</Text>
+        <View style={{ width: 40 }} />
+      </View>
+
+      {items.length === 0 ? (
+        <View style={styles.emptyBox}>
+          <Ionicons name="bag-outline" size={48} color="#9CA3AF" />
+          <Text style={styles.emptyText}>Себет әзірге бос</Text>
+        </View>
+      ) : (
+        <>
+          <FlatList
+            data={items}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.list}
+            renderItem={({ item }) => (
+              <View style={styles.card}>
+                <Image source={{ uri: item.image }} style={styles.img} />
+                <View style={styles.info}>
+                  <Text style={styles.name}>{item.name}</Text>
+                  <Text style={styles.rest}>{item.restaurant}</Text>
+                  <Text style={styles.price}>{item.priceText}</Text>
+                </View>
+                <View style={styles.qtyBox}>
+                  <TouchableOpacity
+                    style={styles.qtyBtn}
+                    onPress={() => decreaseQty(item.id)}
+                  >
+                    <Ionicons name="remove" size={16} color="#181C2E" />
+                  </TouchableOpacity>
+                  <Text style={styles.qtyText}>{item.quantity}</Text>
+                  <TouchableOpacity
+                    style={styles.qtyBtn}
+                    onPress={() => increaseQty(item.id)}
+                  >
+                    <Ionicons name="add" size={16} color="#181C2E" />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => removeItem(item.id)}
+                    style={{ marginLeft: 4 }}
+                  >
+                    <Ionicons name="trash-outline" size={18} color="#EF4444" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          />
+
+          <View style={styles.footer}>
+            <View style={styles.totalRow}>
+              <Text style={styles.totalLabel}>Жалпы сома:</Text>
+              <Text style={styles.totalValue}>
+                {totalPrice.toLocaleString('ru-RU')} ₸
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={styles.checkoutBtn}
+              onPress={() => navigation?.navigate('PaymentScreen')}
             >
-              <Text style={[styles.currencyText, currency === curr && styles.currencyTextActive]}>{curr}</Text>
+              <Text style={styles.checkoutText}>Тапсырыс беру</Text>
             </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        {cartItems.map((item) => (
-          <View key={item.id} style={styles.cartItemCard}>
-            <Image source={{ uri: item.image }} style={styles.itemThumbnail} />
-
-            <View style={styles.itemDetails}>
-              <Text style={styles.itemName}>{item.name}</Text>
-              <Text style={styles.itemPrice}>{formatPrice(item.basePrice * item.qty)}</Text>
-              <Text style={styles.itemSize}>Өлшемі: {item.size}</Text>
-            </View>
-
-            <View style={styles.quantityContainer}>
-              <TouchableOpacity 
-                style={styles.qtyButton}
-                onPress={() => {
-                  setItems(cartItems.map(i => i.id === item.id && i.qty > 1 ? {...i, qty: i.qty - 1} : i))
-                }}
-              >
-                <Ionicons name="remove" size={16} color="#181C2E" />
-              </TouchableOpacity>
-              <Text style={styles.qtyText}>{item.qty}</Text>
-              <TouchableOpacity 
-                style={styles.qtyButtonActive}
-                onPress={() => {
-                  setItems(cartItems.map(i => i.id === item.id ? {...i, qty: i.qty + 1} : i))
-                }}
-              >
-                <Ionicons name="add" size={16} color="#FFFFFF" />
-              </TouchableOpacity>
-            </View>
           </View>
-        ))}
-      </ScrollView>
-
-      <View style={styles.footer}>
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>Аралық сома</Text>
-          <Text style={styles.summaryValue}>{formatPrice(calculateTotal())}</Text>
-        </View>
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>Жеткізу</Text>
-          <Text style={styles.summaryValue}>Тегін</Text>
-        </View>
-        <View style={[styles.summaryRow, { marginBottom: 20 }]}>
-          <Text style={styles.totalLabel}>Барлығы</Text>
-          <Text style={styles.totalValue}>{formatPrice(calculateTotal())}</Text>
-        </View>
-
-        <TouchableOpacity 
-          style={styles.checkoutButton} 
-          onPress={() => navigation?.navigate('PaymentScreen')}
-        >
-          <Text style={styles.checkoutButtonText}>Тапсырыс беру</Text>
-        </TouchableOpacity>
-      </View>
+        </>
+      )}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFFFFF' },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 10 },
-  backButton: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#ECF0F4', justifyContent: 'center', alignItems: 'center' },
-  headerTitle: { fontSize: 17, fontWeight: 'bold', color: '#181C2E' },
-  currencyContainer: { flexDirection: 'row', backgroundColor: '#F0F5FA', borderRadius: 10, padding: 2 },
-  currencyBtn: { paddingHorizontal: 8, paddingVertical: 4, borderRadius: 8 },
-  currencyBtnActive: { backgroundColor: '#FF7622' },
-  currencyText: { fontSize: 12, fontWeight: 'bold', color: '#666' },
-  currencyTextActive: { color: '#FFF' },
-  scrollContent: { padding: 24 },
-  cartItemCard: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#F0F5FA', borderRadius: 16, padding: 12, marginBottom: 16 },
-  itemThumbnail: { width: 60, height: 60, borderRadius: 12, backgroundColor: '#EAEAEA', marginRight: 12, resizeMode: 'cover' },
-  itemDetails: { flex: 1 },
-  itemName: { fontSize: 14, fontWeight: 'bold', color: '#181C2E', marginBottom: 4 },
-  itemPrice: { fontSize: 14, fontWeight: '600', color: '#FF7622', marginBottom: 4 },
-  itemSize: { fontSize: 12, color: '#A0A5BA' },
-  quantityContainer: { flexDirection: 'row', alignItems: 'center' },
-  qtyButton: { width: 28, height: 28, borderRadius: 14, backgroundColor: '#FFFFFF', justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOpacity: 0.05, elevation: 1 },
-  qtyButtonActive: { width: 28, height: 28, borderRadius: 14, backgroundColor: '#FF7622', justifyContent: 'center', alignItems: 'center' },
-  qtyText: { marginHorizontal: 10, fontSize: 14, fontWeight: 'bold', color: '#181C2E' },
-  footer: { backgroundColor: '#F0F5FA', padding: 24, borderTopLeftRadius: 24, borderTopRightRadius: 24 },
-  summaryRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
-  summaryLabel: { fontSize: 14, color: '#A0A5BA' },
-  summaryValue: { fontSize: 14, fontWeight: '600', color: '#181C2E' },
-  totalLabel: { fontSize: 16, fontWeight: 'bold', color: '#181C2E' },
-  totalValue: { fontSize: 18, fontWeight: 'bold', color: '#FF7622' },
-  checkoutButton: { backgroundColor: '#FF7622', paddingVertical: 16, borderRadius: 12, alignItems: 'center' },
-  checkoutButtonText: { color: '#FFFFFF', fontWeight: 'bold', fontSize: 14 },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  backBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#F3F4F8',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: { fontSize: 18, fontWeight: '700', color: '#181C2E' },
+  emptyBox: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: 10 },
+  emptyText: { fontSize: 15, color: '#6B7280' },
+  list: { paddingHorizontal: 16, paddingBottom: 16, gap: 12 },
+  card: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#F0F2F5',
+    padding: 10,
+    gap: 10,
+  },
+  img: { width: 64, height: 64, borderRadius: 10 },
+  info: { flex: 1 },
+  name: { fontSize: 15, fontWeight: '700', color: '#181C2E' },
+  rest: { fontSize: 12, color: '#6B7280' },
+  price: { fontSize: 13, fontWeight: '700', color: '#FF7622', marginTop: 4 },
+  qtyBox: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  qtyBtn: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: '#F3F4F8',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  qtyText: { fontSize: 14, fontWeight: '700', color: '#181C2E', minWidth: 16, textAlign: 'center' },
+  footer: {
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: '#F0F2F5',
+    backgroundColor: '#FFFFFF',
+  },
+  totalRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  totalLabel: { fontSize: 15, color: '#6B7280', fontWeight: '600' },
+  totalValue: { fontSize: 18, fontWeight: '800', color: '#181C2E' },
+  checkoutBtn: {
+    backgroundColor: '#FF7622',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  checkoutText: { color: '#FFFFFF', fontSize: 15, fontWeight: '700' },
 });

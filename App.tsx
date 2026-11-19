@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { CartProvider } from './src/context/CartContext';
 
 import SplashScreen from './src/components/SplashScreen';
 import Onboarding1 from './src/components/Onboarding1';
@@ -41,46 +42,48 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="SplashScreen" component={SplashScreen} />
-        <Stack.Screen name="Onboarding1" component={Onboarding1} />
-        <Stack.Screen name="Onboarding2" component={Onboarding2} />
-        <Stack.Screen name="Onboarding3" component={Onboarding3} />
+    <CartProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="SplashScreen" component={SplashScreen} />
+          <Stack.Screen name="Onboarding1" component={Onboarding1} />
+          <Stack.Screen name="Onboarding2" component={Onboarding2} />
+          <Stack.Screen name="Onboarding3" component={Onboarding3} />
 
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-        <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
-        <Stack.Screen name="OTPScreen" component={OTPScreen} />
-        <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+          <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+          <Stack.Screen name="OTPScreen" component={OTPScreen} />
+          <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
 
-        <Stack.Screen name="SelectCityScreen" component={SelectCityScreen} />
-        <Stack.Screen name="AccessLocationScreen" component={AccessLocationScreen} />
+          <Stack.Screen name="SelectCityScreen" component={SelectCityScreen} />
+          <Stack.Screen name="AccessLocationScreen" component={AccessLocationScreen} />
 
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="SearchScreen" component={SearchScreen} />
-        <Stack.Screen name="RestaurantDetailScreen" component={RestaurantDetailScreen} />
-        <Stack.Screen name="CartScreen" component={CartScreen} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="SearchScreen" component={SearchScreen} />
+          <Stack.Screen name="RestaurantDetailScreen" component={RestaurantDetailScreen} />
+          <Stack.Screen name="CartScreen" component={CartScreen} />
 
-        <Stack.Screen name="MapScreen" component={MapScreen} />
-        <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
+          <Stack.Screen name="MapScreen" component={MapScreen} />
+          <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
 
-        {/* Жаңа экрандар */}
-        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-        <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
-        <Stack.Screen name="OrdersHistoryScreen" component={OrdersHistoryScreen} />
-        <Stack.Screen name="OrderTrackingScreen" component={OrderTrackingScreen} />
-        <Stack.Screen name="FavoritesScreen" component={FavoritesScreen} />
-        <Stack.Screen name="AddressesScreen" component={AddressesScreen} />
-        <Stack.Screen name="PaymentMethodsScreen" component={PaymentMethodsScreen} />
-        <Stack.Screen name="PromoCodesScreen" component={PromoCodesScreen} />
-        <Stack.Screen name="NotificationsScreen" component={NotificationsScreen} />
-        <Stack.Screen name="CategoriesScreen" component={CategoriesScreen} />
-        <Stack.Screen name="ReviewScreen" component={ReviewScreen} />
-        <Stack.Screen name="SupportScreen" component={SupportScreen} />
-        <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
-        <Stack.Screen name="OrderSuccessScreen" component={OrderSuccessScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+          {/* Жаңа экрандар */}
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+          <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
+          <Stack.Screen name="OrdersHistoryScreen" component={OrdersHistoryScreen} />
+          <Stack.Screen name="OrderTrackingScreen" component={OrderTrackingScreen} />
+          <Stack.Screen name="FavoritesScreen" component={FavoritesScreen} />
+          <Stack.Screen name="AddressesScreen" component={AddressesScreen} />
+          <Stack.Screen name="PaymentMethodsScreen" component={PaymentMethodsScreen} />
+          <Stack.Screen name="PromoCodesScreen" component={PromoCodesScreen} />
+          <Stack.Screen name="NotificationsScreen" component={NotificationsScreen} />
+          <Stack.Screen name="CategoriesScreen" component={CategoriesScreen} />
+          <Stack.Screen name="ReviewScreen" component={ReviewScreen} />
+          <Stack.Screen name="SupportScreen" component={SupportScreen} />
+          <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+          <Stack.Screen name="OrderSuccessScreen" component={OrderSuccessScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </CartProvider>
   );
 }
